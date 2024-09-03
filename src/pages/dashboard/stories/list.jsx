@@ -1,31 +1,37 @@
 import EnhancedTable from "@/components/mu-table";
+import {useNavigate, useSearchParams} from "react-router-dom";
 const headCells = [
     {
       id: 'name',
+      field: 'name',
       numeric: false,
-      disablePadding: true,
+      disablePadding: false,
       label: 'Dessert (100g serving)',
     },
     {
       id: 'calories',
+      field: 'calories',
       numeric: true,
       disablePadding: false,
       label: 'Calories',
     },
     {
       id: 'fat',
+      field: 'fat',
       numeric: true,
       disablePadding: false,
       label: 'Fat (g)',
     },
     {
       id: 'carbs',
+      field: 'carbs',
       numeric: true,
       disablePadding: false,
       label: 'Carbs (g)',
     },
     {
       id: 'protein',
+      field: 'protein',
       numeric: true,
       disablePadding: false,
       label: 'Protein (g)',
@@ -60,8 +66,8 @@ const headCells = [
     //           }
     //         ])
     //       }
-          
-    
+
+
     return {
       id,
       name,
@@ -71,7 +77,7 @@ const headCells = [
       protein,
     };
   }
-  
+
   const rows = [
     createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
     createData(2, 'Donut', 452, 25.0, 51, 4.9),
@@ -88,9 +94,18 @@ const headCells = [
     createData(13, 'Oreo', 437, 18.0, 63, 4.0),
   ];
 const StoriesList = () => {
+    let navigate = useNavigate();
+    const [_, setSearchParams] = useSearchParams();
+
+
+    const onClickRow=(row)=>{
+        setSearchParams({storyId:row?.id})
+        // navigate(`/dashboard/stories?storyId=${row?.id}`)
+
+    }
     return (
         <div className="mt-12 mb-8 flex flex-col gap-12">
-            <EnhancedTable headCells={headCells} rows={rows}/>
+            <EnhancedTable  headCells={headCells} rows={rows} onClickRow={onClickRow}/>
         </div>
     );
 }
