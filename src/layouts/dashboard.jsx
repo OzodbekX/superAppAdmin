@@ -40,20 +40,23 @@ export function Dashboard() {
           {routes.map(
             ({ layout, pages }) =>
               layout === "dashboard" &&
-              pages.filter(i=>!i.children).map(({ path, element,...other }) => {            
+              pages.filter(i=>!i.children).map(({ path, element,...other }) => {
                 return <Route exact path={path} element={element} />
               })
+          )}
+          {routes.map(
+              ({ layout, pages }) => (
+              layout === "dashboard" &&
+                pages.filter(i => i.children).map(({children, ...other}) => {
+                  return children.map(({path, element}) => {
+                    return <Route exact path={path} element={element}/>
+                  })
+                })
+              )
           )}
         </Routes>
         
 
-          {routes.map(
-            ({ layout, pages }) =>
-              layout === "dashboard" &&
-              pages.filter(i=>i.children).map(({ path, element,...other }) => {            
-                return <Routes><Route exact path={path} element={element} /></Routes>
-              })
-          )}
         
         <div className="text-blue-gray-600">
           <Footer />

@@ -33,6 +33,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
     }
   };
 
+  console.log({sidenavColor})
   return (
     <aside
       className={`${sidenavTypes[sidenavType]} ${openSidenav ? "translate-x-0" : "-translate-x-80"
