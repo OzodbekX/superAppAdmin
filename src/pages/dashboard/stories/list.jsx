@@ -1,113 +1,124 @@
-import EnhancedTable from "@/components/mu-table";
-import {useNavigate, useSearchParams} from "react-router-dom";
-const headCells = [
-    {
-      id: 'name',
-      field: 'name',
-      numeric: false,
-      disablePadding: false,
-      label: 'Dessert (100g serving)',
-    },
-    {
-      id: 'calories',
-      field: 'calories',
-      numeric: true,
-      disablePadding: false,
-      label: 'Calories',
-    },
-    {
-      id: 'fat',
-      field: 'fat',
-      numeric: true,
-      disablePadding: false,
-      label: 'Fat (g)',
-    },
-    {
-      id: 'carbs',
-      field: 'carbs',
-      numeric: true,
-      disablePadding: false,
-      label: 'Carbs (g)',
-    },
-    {
-      id: 'protein',
-      field: 'protein',
-      numeric: true,
-      disablePadding: false,
-      label: 'Protein (g)',
-    },
-  ];
+import { userStore } from '@/utils/zustand.js'
+import AntTable from '@/components/AntTable/index.jsx'
+import { Typography } from '@material-tailwind/react'
+import * as React from 'react'
+import { Badge, Button, Image } from 'antd'
 
-  function createData(id, name, calories, fat, carbs, protein) {
-    // return
-    //    ( {
-    //         id,
-    //         isActive: true,
-    //         storySlides: [
-    //           {
-    //             type: "video",
-    //             videoUrlUzb: "https://...",
-    //             videoUrlRu: "https://...",
-    //             imageUrlUzb: "https://...",
-    //             imageUrlRu: "https://...",
-    //             ": 360,
-    //             "isActive": true,
-    //             "clickableArea": "top",
-    //             "clickableUrl": "https://..."
-    //           },
-    //           {
-    //             "type": "image",
-    //             "imageUrlUzb": "https://...",
-    //             "imageUrlRu": "https://...",
-    //             "duration": 120,
-    //             "isActive": true,
-    //             "clickableArea": "none",
-    //             "clickableUrl": null
-    //           }
-    //         ])
-    //       }
+const StoriesList = ({ setFilters, filters, stories, total, setSelectedStory }) => {
+  const lang = userStore((state) => state.language)
 
+  const headCells = [
+    {
+      id: 'Тип',
+      key: 'Тип',
+      title: 'Id',
+      width: '30%',
+      render: (row, head) => {
+        return (
+          <div className="flex flex-1 gap-2">
+            {row.slides?.map((item, index) =>
+              item?.type === 'image' ? (
+                <div className={'mx-1'}>Изображение</div>
+              ) : (
+                <div className={'mx-1'}>Видео</div>
+              )
+            )}
+          </div>
+        )
+      },
+    },
+    {
+      id: 'image',
+      key: 'image',
+      width: '30%',
+      title: 'Изображение',
+      render: (row, head) => {
+        return <Image height={50} src={row?.image_url?.[lang]} />
+      },
+    },
+    {
+      id: 'slides',
+      key: 'slides',
+      title: 'Слайды',
+      width: '30%',
+      render: (row, head) => {
+        return (
+          <div className="flex flex-1 gap-2">
+            {row.slides?.map((item, index) =>
+              item?.type === 'image' ? (
+                <Image key={index} height={50} src={item?.image_url?.[lang]} />
+              ) : (
+                <Image key={index} height={50} src={row?.image_url?.[lang]} />
+              )
+            )}
+          </div>
+        )
+      },
+    },
+    {
+      id: 'status',
+      key: 'status',
+      align: 'left',
+      width: '10%',
+      sorter: (a, b) => (a.status && b.status === 'active' ? 1 : a.status !== 'active' ? 1 : 0),
+      render: (row, head) => (
+        <Badge
+          key={row?.id}
+          showZero
+          color={row?.status === 'active' ? '#52c41a' : '#faad14'}
+          count={row?.status === 'active' ? 'активный' : 'неактивный'}
+        />
+      ),
+      title: 'Статус',
+    },
+  ]
 
-    return {
-      id,
-      name,
-      calories,
-      fat,
-      carbs,
-      protein,
-    };
+  const onClickRow = (row) => {
+    setSelectedStory(row)
   }
 
-  const rows = [
-    createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
-    createData(2, 'Donut', 452, 25.0, 51, 4.9),
-    createData(3, 'Eclair', 262, 16.0, 24, 6.0),
-    createData(4, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData(5, 'Gingerbread', 356, 16.0, 49, 3.9),
-    createData(6, 'Honeycomb', 408, 3.2, 87, 6.5),
-    createData(7, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData(8, 'Jelly Bean', 375, 0.0, 94, 0.0),
-    createData(9, 'KitKat', 518, 26.0, 65, 7.0),
-    createData(10, 'Lollipop', 392, 0.2, 98, 0.0),
-    createData(11, 'Marshmallow', 318, 0, 81, 2.0),
-    createData(12, 'Nougat', 360, 19.0, 9, 37.0),
-    createData(13, 'Oreo', 437, 18.0, 63, 4.0),
-  ];
-const StoriesList = () => {
-    let navigate = useNavigate();
-    const [_, setSearchParams] = useSearchParams();
+  const onClickAdd = () => {
+    setSelectedStory({
+      status: 'active',
+      image_url: {
+        ru: '',
+        uz: '',
+      },
+      slides: [
+        {
+          clickable_area: 'Top',
+          image_url: { ru: '', uz: '' },
+          status: 'active',
+          type: 'image',
+        },
+      ],
+    })
+  }
 
-
-    const onClickRow=(row)=>{
-        setSearchParams({storyId:row?.id})
-        // navigate(`/dashboard/stories?storyId=${row?.id}`)
-
-    }
-    return (
-        <div className="mt-12 mb-8 flex flex-col gap-12">
-            <EnhancedTable  headCells={headCells} rows={rows} onClickRow={onClickRow}/>
-        </div>
-    );
+  return (
+    <div className="p-4 rounded-3xl flex flex-col gap-6 bg-white">
+      <div className="flex justify-between ">
+        <div className={'text-3xl font-semibold mt-1'}>Истории</div>
+        <Button
+          onClick={onClickAdd}
+          size={'sm'}
+          className={'flex align-middle pointer-events-auto'}
+        >
+          <Typography className={'font-semibold'} style={{ fontSize: '12px', margin: '3px' }}>
+            Добавить
+          </Typography>
+        </Button>
+      </div>
+      <AntTable
+        headCells={headCells}
+        rows={stories}
+        total={total}
+        onClickRow={onClickRow}
+        filters={filters}
+        setFilters={setFilters}
+      />
+    </div>
+  )
 }
 
-export default StoriesList;
+export default StoriesList

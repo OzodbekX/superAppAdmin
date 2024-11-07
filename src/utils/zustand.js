@@ -1,12 +1,23 @@
 import { create } from 'zustand'
 
 export const userStore = create((set) => ({
-    token: "",
-    setToken: (newToken) => set((state) => {
-        localStorage.setItem('token', newToken)
-        return ({
-            token: newToken
-        })
+  token: localStorage.getItem('ttToken'),
+  language: 'ru',
+  userName: 'Common operator',
+  setToken: (newToken) =>
+    set((state) => {
+      localStorage.setItem('ttToken', newToken)
+      return {
+        ...state,
+        token: newToken,
+      }
     }),
-    removeToken: () => set((state) => ({ token:"" })),
+  setAdmin: (userName) =>
+    set((state) => {
+      return {
+        ...state,
+        userName: userName,
+      }
+    }),
+  removeToken: () => set((state) => ({ token: '' })),
 }))
