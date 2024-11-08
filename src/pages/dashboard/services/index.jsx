@@ -4,7 +4,6 @@ import { FolderOpenIcon, TagIcon } from '@heroicons/react/24/solid'
 import ServiceOptions from '@/pages/dashboard/services/serviceOptions/index.jsx'
 import ServiceTypes from '@/pages/dashboard/services/servicesType/index.jsx'
 import { SquaresPlusIcon } from '@heroicons/react/24/solid/index.js'
-import ConnectTariffsToRouters from '@/pages/dashboard/devices/connectRoutersToTariffs/index.jsx'
 import ConnectServiceToOptions from '@/pages/dashboard/services/connectServiceToOption/index.jsx'
 
 const Services = () => {

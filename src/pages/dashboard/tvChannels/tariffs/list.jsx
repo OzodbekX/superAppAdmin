@@ -2,7 +2,7 @@ import React from 'react'
 import AntTable from '@/components/AntTable/index.jsx'
 import { addSpaceEveryThreeChars } from '@/utils/functions.js'
 import { Typography } from '@material-tailwind/react'
-import { Image, Button } from 'antd'
+import { Button, Image } from 'antd'
 
 const headCells = [
   {

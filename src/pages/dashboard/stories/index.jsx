@@ -11,7 +11,7 @@ const Stories = () => {
 
   const { data } = useQuery({
     queryKey: ['fetchStories', filters], // The query key depends on the page and pageSize
-    queryFn: () => getStories(), // Fetch the correct page
+    queryFn: () => getStories({ offset: filters.page * filters.pageSize, limit: filters.pageSize,types:"SUPERAPP" }), // Fetch the correct page
     keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
     retry: false,
     queryHash: 'fetchStories',

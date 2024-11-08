@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { cloneDeep } from 'lodash'
-import { Badge, Button, Form, Input, Select } from 'antd'
+import { Badge, Button, Form, Input } from 'antd'
 import { useMutation } from '@tanstack/react-query'
 import { createChatFAQs, deleteChatFAQs, updateChatFAQs } from '@/utils/api/functions.js'
 

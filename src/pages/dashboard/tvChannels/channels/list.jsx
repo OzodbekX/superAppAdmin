@@ -1,6 +1,6 @@
 import AntTable from '@/components/AntTable/index.jsx'
 import * as React from 'react'
-import { Image, Button } from 'antd'
+import { Button, Image } from 'antd'
 import { Typography } from '@material-tailwind/react'
 import { userStore } from '@/utils/zustand.js'
 

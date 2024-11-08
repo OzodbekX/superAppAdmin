@@ -2,7 +2,7 @@ import { userStore } from '@/utils/zustand.js'
 import AntTable from '@/components/AntTable/index.jsx'
 import { Typography } from '@material-tailwind/react'
 import * as React from 'react'
-import { Image, Button } from 'antd'
+import { Button, Image } from 'antd'
 
 const NewsList = ({ setFilters, filters, News, total, setSelectedNews }) => {
   const lang = userStore((state) => state.language)

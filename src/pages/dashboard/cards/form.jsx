@@ -55,7 +55,6 @@ export default function CardsForm({ selectedCards, setFilters, setSelectedCards 
       }
     })
   }
-  console.log({ selectedCards })
 
   return (
     <div className=" mt-10 p-5 border rounded-3xl shadow-md bg-white">

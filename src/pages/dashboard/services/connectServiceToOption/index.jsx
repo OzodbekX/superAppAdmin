@@ -2,13 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import {
   connectServiceToOption,
-  connectTariffToDevice,
   disConnectServiceToOption,
   fetchConnectedServiceOptions,
   fetchService,
   fetchServiceOption,
-  fetchTariffs,
-  fetchTariffsWithConnectedDevices,
 } from '@/utils/api/functions.js'
 import AntTable from '@/components/AntTable/index.jsx'
 import { userStore } from '@/utils/zustand.js'

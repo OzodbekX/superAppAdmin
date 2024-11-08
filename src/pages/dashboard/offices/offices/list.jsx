@@ -3,7 +3,7 @@ import AntTable from '@/components/AntTable/index.jsx'
 import { Typography } from '@material-tailwind/react'
 import * as React from 'react'
 import { useCallback } from 'react'
-import { Badge, Image, Select, Button } from 'antd'
+import { Badge, Button, Image, Select } from 'antd'
 import { debounce } from 'lodash'
 
 const OfficeList = ({ setFilters, filters, cityList, list, total, setSelectedOffice }) => {

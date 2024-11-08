@@ -4,9 +4,17 @@ import axiosInstance from './api.js'
 import { apiUrls } from '@/utils/api/apiUrls.js'
 import chatAxiosInstance from '@/utils/api/chatApi.js'
 
-export const login = async (loginData) =>
-  axiosInstance.post({ url: api.testApi, method: 'GET', data: loginData })
 
+export const login = async (params) => {
+  return await axiosInstance
+      .post(apiUrls.login, params)
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        throw new Error(err)
+      })
+}
 export const fetchTariffs = async (params) => {
   return await axiosInstance.get(apiUrls.dashboardTariffs, { params: params }).then((res) => {
     return res.data
@@ -127,9 +135,9 @@ export const removeTariffToCategory = async (ids) => {
       throw new Error(err)
     })
 }
-export const getStories = async () => {
+export const getStories = async (params) => {
   return await axiosInstance
-    .get(apiUrls.stories)
+    .get(apiUrls.stories,{params})
     .then((res) => {
       return res.data
     })

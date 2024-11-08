@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { userStore } from '@/utils/zustand.js'
 
 const baseUrl = 'http://84.46.247.18:8081'
 

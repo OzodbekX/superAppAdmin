@@ -2,7 +2,7 @@ import { userStore } from '@/utils/zustand.js'
 import AntTable from '@/components/AntTable/index.jsx'
 import { Typography } from '@material-tailwind/react'
 import * as React from 'react'
-import { Badge, Button } from 'antd'
+import { Button } from 'antd'
 
 const ChatFAQsList = ({ setFilters, filters, faqs, total, setSelectedChatFAQs }) => {
   const lang = userStore((state) => state.language)

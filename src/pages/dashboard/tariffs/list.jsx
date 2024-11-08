@@ -2,8 +2,7 @@ import { userStore } from '@/utils/zustand.js'
 import { addSpaceEveryThreeChars, secondsToTime } from '@/utils/functions.js'
 import AntTable from '@/components/AntTable/index.jsx'
 import * as React from 'react'
-import { Badge, Button } from 'antd'
-import { Typography } from '@material-tailwind/react'
+import { Badge } from 'antd'
 
 const TariffList = ({ setFilters, filters, selectOptions, tariffs, total, setSelectedTariff }) => {
   const lang = userStore((state) => state.language)

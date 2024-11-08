@@ -2,8 +2,7 @@ import { userStore } from '@/utils/zustand.js'
 import { Typography } from '@material-tailwind/react'
 import AntTable from '@/components/AntTable/index.jsx'
 import * as React from 'react'
-import { fetchCategoryTariffs } from '@/utils/api/functions.js'
-import { Image, Button } from 'antd'
+import { Button, Image } from 'antd'
 
 const CategoriesList = ({ categories, setSelectedCategory }) => {
   const lang = userStore((state) => state.language)

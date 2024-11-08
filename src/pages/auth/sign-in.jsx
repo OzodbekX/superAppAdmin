@@ -6,19 +6,17 @@ import { userStore } from '@/utils/zustand.js'
 import { useNavigate } from 'react-router-dom'
 
 export function SignIn() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [errors, setErrors] = useState({ email: '', password: '' })
-  const setToken = userStore((state) => state.setToken)
+  const [name, setName] = useState('')
+  const [phoneNumber, setPassword] = useState('')
+  const [errors, setErrors] = useState({ name: '', phoneNumber: '' })
+  const { setToken, setUserName } = userStore((state) => state)
   const navigate = useNavigate()
 
   // React Query mutation for login
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      setToken(
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwicm9sZSI6Ik9QRVJBVE9SIiwiZXhwIjoxNzMxMzMzODYwLCJ1c2VySWQiOjIsImlhdCI6MTczMDk3Mzg2MH0.HzBkMjvS0PqpR7jMhqFREpmcXDAiJA2aWMrRX1ut_mD5vcAoeKFCRaGaPTUJ7fvojiSALFT_4JNbg2wL9c6XpQ'
-      )
+      setToken(data?.accessToken)
       navigate('/')
       // Handle successful login (e.g., redirect to dashboard)
     },
@@ -30,21 +28,22 @@ export function SignIn() {
 
   const validate = () => {
     let valid = true
-    let newErrors = { email: '', password: '' }
+    let newErrors = { name: '', phoneNumber: '' }
 
-    if (!email) {
-      newErrors.email = 'Email is required.'
-      valid = false
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Email address is invalid.'
+    if (!name) {
+      newErrors.name = 'Email is required.'
       valid = false
     }
+    // else if (!/\S+@\S+\.\S+/.test(name)) {
+    //   newErrors.name = 'Email address is invalid.'
+    //   valid = false
+    // }
 
-    if (!password) {
-      newErrors.password = 'Password is required.'
+    if (!phoneNumber) {
+      newErrors.phoneNumber = 'Номер телефона обязателен.'
       valid = false
-    } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters long.'
+    } else if (phoneNumber.length < 6) {
+      newErrors.phoneNumber = 'Номер телефона must be at least 6 characters long.'
       valid = false
     }
 
@@ -56,77 +55,72 @@ export function SignIn() {
     e.preventDefault()
 
     if (validate()) {
-      setToken(
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwicm9sZSI6Ik9QRVJBVE9SIiwiZXhwIjoxNzMxMzMzODYwLCJ1c2VySWQiOjIsImlhdCI6MTczMDk3Mzg2MH0.HzBkMjvS0PqpR7jMhqFREpmcXDAiJA2aWMrRX1ut_mD5vcAoeKFCRaGaPTUJ7fvojiSALFT_4JNbg2wL9c6XpQ'
-      )
-      navigate('/')
-
-      // mutation.mutate({email, password});
+      setUserName(name)
+      mutation.mutate({ name, phoneNumber })
     }
   }
 
   return (
-    <section className="m-8 flex gap-4">
-      <div className="w-full lg:w-3/5 mt-24">
-        <div className="text-center">
-          <Typography variant="h2" className="font-bold mb-4">
-            Sign In
-          </Typography>
-          <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">
-            Enter your email and password to Sign In.
-          </Typography>
-        </div>
-        <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" onSubmit={handleSubmit}>
-          <div className="mb-1 flex flex-col gap-6">
-            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Your email
+      <section className="m-8 flex gap-4">
+        <div className="w-full lg:w-3/5 mt-24">
+          <div className="text-center">
+            <Typography variant="h2" className="font-bold mb-4">
+              Войти
             </Typography>
-            <Input
-              size="lg"
-              placeholder="name@mail.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              error={errors.email !== ''}
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: 'before:content-none after:content-none',
-              }}
-            />
-            {errors.email && (
-              <Typography variant="small" color="red" className="-mt-4">
-                {errors.email}
-              </Typography>
-            )}
-            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Password
+            <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">
+              Введите свое имя и номер телефона для входа.
             </Typography>
-            <Input
-              type="password"
-              size="lg"
-              placeholder="********"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              error={errors.password !== ''}
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: 'before:content-none after:content-none',
-              }}
-            />
-            {errors.password && (
-              <Typography variant="small" color="red" className="-mt-4">
-                {errors.password}
-              </Typography>
-            )}
           </div>
-          <Button className="mt-6" fullWidth type="submit" disabled={mutation.isLoading}>
-            {mutation.isLoading ? 'Signing In...' : 'Sign In'}
-          </Button>
-        </form>
-      </div>
-      <div className="w-2/5 h-full hidden lg:block">
-        <img src="/img/pattern.png" className="h-full w-full object-cover rounded-3xl" />
-      </div>
-    </section>
+          <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" onSubmit={handleSubmit}>
+            <div className="mb-1 flex flex-col gap-6">
+              <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                Введите свое имя
+              </Typography>
+              <Input
+                  size="lg"
+                  placeholder="введите свое имя"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  error={errors.name !== ''}
+                  className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                  labelProps={{
+                    className: 'before:content-none after:content-none',
+                  }}
+              />
+              {errors.name && (
+                  <Typography variant="small" color="red" className="-mt-4">
+                    {errors.name}
+                  </Typography>
+              )}
+              <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                Номер телефона
+              </Typography>
+              <Input
+                  type="number"
+                  size="lg"
+                  value={phoneNumber}
+                  onChange={(e) => setPassword(e.target.value)}
+                  error={errors.phoneNumber !== ''}
+                  className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                  labelProps={{
+                    className: 'before:content-none after:content-none',
+                  }}
+              />
+              {errors.phoneNumber && (
+                  <Typography variant="small" color="red" className="-mt-4">
+                    {errors.phoneNumber}
+                  </Typography>
+              )}
+            </div>
+            <Button className="mt-6" fullWidth type="submit" disabled={mutation.isLoading}>
+              {mutation.isLoading ? 'Вход в систему...' : 'Войти'}
+            </Button>
+          </form>
+        </div>
+        <div className="w-2/5 h-full hidden lg:block">
+          <img src="/img/pattern.png" className="h-full w-full object-cover rounded-3xl" />
+        </div>
+      </section>
   )
 }
 

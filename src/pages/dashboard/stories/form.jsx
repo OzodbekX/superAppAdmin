@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Button, Form, Input, Select } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import UploadImage from '@/components/UploadImage/index.jsx'
@@ -37,10 +37,10 @@ const StoryForm = ({ setSelectedStory, onUpdateList, selectedStory }) => {
       storyForm.setFieldsValue(selectedStory)
     }
   }, [selectedStory])
-  console.log({ selectedStory })
 
   const handleFinish = (values) => {
     storyForm.validateFields().then((values) => {
+      values.types='SUPERAPP'
       try {
         if (selectedStory?.id) {
           onUpdateStory.mutate({ id: selectedStory.id, params: values })

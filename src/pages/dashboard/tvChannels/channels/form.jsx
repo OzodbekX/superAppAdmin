@@ -67,7 +67,7 @@ export default function ChannelForm({ selectedChannel, onUpdateList, setSelected
       channelForm.setFieldsValue(newFormData)
     }
   }, [selectedChannel, categoryList, tariffList])
-  console.log({ selectedChannel })
+
   const onSubmit = () => {
     channelForm.validateFields().then((values) => {
       try {

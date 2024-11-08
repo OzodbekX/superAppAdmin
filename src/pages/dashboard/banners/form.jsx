@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { cloneDeep } from 'lodash'
-import { Badge, Button, Form, Input, Select } from 'antd'
+import { Button, Form, Input, Select } from 'antd'
 import { useMutation } from '@tanstack/react-query'
 import UploadImage from '@/components/UploadImage/index.jsx'
 import { createBanner, deleteBanner, updateBanner } from '@/utils/api/functions.js'

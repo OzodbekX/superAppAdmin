@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import {
   connectDeviceToTariff,
-  connectTariffToDevice,
-  fetchTariffs,
   fetchDevicesWithConnectedTariffs,
   fetchWifiDevices,
 } from '@/utils/api/functions.js'
