@@ -40,7 +40,7 @@ const StoryForm = ({ setSelectedStory, onUpdateList, selectedStory }) => {
 
   const handleFinish = (values) => {
     storyForm.validateFields().then((values) => {
-      values.types='SUPERAPP'
+      values.types = ['SUPERAPP']
       try {
         if (selectedStory?.id) {
           onUpdateStory.mutate({ id: selectedStory.id, params: values })
@@ -64,14 +64,14 @@ const StoryForm = ({ setSelectedStory, onUpdateList, selectedStory }) => {
       <div className="flex gap-4">
         <Form.Item
           rules={[{ message: 'Пожалуйста, выберите', required: true }]}
-          name="status"
+          name="isActive"
           label="Статус"
           className={'flex-1'}
-          initialValue={'active'}
+          initialValue={true}
         >
           <Select>
-            <Option value="active">Активный</Option>
-            <Option value="inactive">Неактивный</Option>
+            <Option value={true}>Активный</Option>
+            <Option value={false}>Неактивный</Option>
           </Select>
         </Form.Item>
         <div className={'flex-1'} />
@@ -81,19 +81,19 @@ const StoryForm = ({ setSelectedStory, onUpdateList, selectedStory }) => {
       <div className="flex gap-4">
         <Form.Item
           rules={[{ message: 'Пожалуйста, загрузите изображение', required: true }]}
-          name={['image_url', 'uz']}
+          name={['image', 'uz']}
           className={'flex-1'}
           label="URL Изображения (UZ)"
         >
-          <UploadImage accept={'image/*,image/gif'} field={['image_url', 'uz']} form={storyForm} />
+          <UploadImage accept={'image/*,image/gif'} field={['image', 'uz']} form={storyForm} />
         </Form.Item>
         <Form.Item
           rules={[{ message: 'Пожалуйста, загрузите изображение', required: true }]}
-          name={['image_url', 'ru']}
+          name={['image', 'ru']}
           className={'flex-1'}
           label="URL Изображения (РУ)"
         >
-          <UploadImage accept={'image/*,image/gif'} field={['image_url', 'ru']} form={storyForm} />
+          <UploadImage accept={'image/*,image/gif'} field={['image', 'ru']} form={storyForm} />
         </Form.Item>
       </div>
 
@@ -122,39 +122,39 @@ const StoryForm = ({ setSelectedStory, onUpdateList, selectedStory }) => {
                     label="Тип"
                     className={'flex-1'}
                     rules={[{ message: 'Пожалуйста, выберите', required: true }]}
-                    initialValue="image"
+                    initialValue="IMAGE"
                   >
                     <Select>
-                      <Option value="image">Изображение</Option>
-                      <Option value="video">Видео</Option>
+                      <Option value="IMAGE">Изображение</Option>
+                      <Option value="VIDEO">Видео</Option>
                     </Select>
                   </Form.Item>
 
                   <Form.Item
-                    name={[name, 'clickable_area']}
+                    name={[name, 'clickableArea']}
                     className={'flex-1'}
                     label="Кликабельная Область"
                     rules={[{ message: 'Пожалуйста, выберите', required: true }]}
-                    initialValue="Top"
+                    initialValue="TOP"
                   >
                     <Select>
-                      <Option value="Top">Верх</Option>
-                      <Option value="Middle">Середина</Option>
-                      <Option value="Bottom">Низ</Option>
+                      <Option value="TOP">Верх</Option>
+                      <Option value="MIDDLE">Середина</Option>
+                      <Option value="BOTTOM">Низ</Option>
                     </Select>
                   </Form.Item>
                 </div>
                 <div className="flex gap-4">
                   <Form.Item
                     label="Статус"
-                    name={[name, 'status']}
+                    name={[name, 'isActive']}
                     className={'flex-1'}
                     rules={[{ message: 'Пожалуйста, выберите', required: true }]}
-                    initialValue="active"
+                    initialValue={true}
                   >
                     <Select>
-                      <Option value="active">Активный</Option>
-                      <Option value="inactive">Неактивный</Option>
+                      <Option value={true}>Активный</Option>
+                      <Option value={false}>Неактивный</Option>
                     </Select>
                   </Form.Item>
 
@@ -176,29 +176,29 @@ const StoryForm = ({ setSelectedStory, onUpdateList, selectedStory }) => {
                   }
                 >
                   {({ getFieldValue }) =>
-                    getFieldValue(['slides', name, 'type']) === 'image' && (
+                    getFieldValue(['slides', name, 'type']) === 'IMAGE' && (
                       <div className="flex gap-4">
                         <Form.Item
-                          name={[name, 'image_url', 'uz']}
+                          name={[name, 'file', 'uz']}
                           className={'flex-1'}
                           rules={[{ message: 'Пожалуйста, загрузите изображение', required: true }]}
                           label="URL Изображения (UZ)"
                         >
                           <UploadImage
                             accept={'image/*,image/gif'}
-                            field={['slides', name, 'image_url', 'uz']}
+                            field={['slides', name, 'file', 'uz']}
                             form={storyForm}
                           />
                         </Form.Item>
                         <Form.Item
-                          name={[name, 'image_url', 'ru']}
+                          name={[name, 'file', 'ru']}
                           className={'flex-1'}
                           rules={[{ message: 'Пожалуйста, загрузите изображение', required: true }]}
                           label="URL Изображения (RU)"
                         >
                           <UploadImage
                             accept={'image/*,image/gif'}
-                            field={['slides', name, 'image_url', 'ru']}
+                            field={['slides', name, 'file', 'ru']}
                             form={storyForm}
                           />
                         </Form.Item>
@@ -232,14 +232,14 @@ const StoryForm = ({ setSelectedStory, onUpdateList, selectedStory }) => {
                         <div className="flex gap-4" style={{ width: '100%' }}>
                           <Form.Item label="Видео (UZ)" className={'flex-1'}>
                             <UploadImage
-                              field={['slides', name, 'video_url', 'uz']}
+                              field={['slides', name, 'file', 'uz']}
                               accept={'video/*'}
                               form={storyForm}
                             />
                           </Form.Item>
                           <Form.Item label="Видео (RU)" className={'flex-1'}>
                             <UploadImage
-                              field={['slides', name, 'video_url', 'ru']}
+                              field={['slides', name, 'file', 'ru']}
                               accept={'video/*'}
                               form={storyForm}
                             />

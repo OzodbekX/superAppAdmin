@@ -3,29 +3,22 @@ import AntTable from '@/components/AntTable/index.jsx'
 import { Typography } from '@material-tailwind/react'
 import * as React from 'react'
 import { Badge, Button, Image } from 'antd'
+import { convertToCustomFormat } from '@/utils/functions.js'
 
 const StoriesList = ({ setFilters, filters, stories, total, setSelectedStory }) => {
   const lang = userStore((state) => state.language)
 
   const headCells = [
     {
-      id: 'Тип',
-      key: 'Тип',
-      title: 'Id',
-      width: '30%',
-      render: (row, head) => {
-        return (
-          <div className="flex flex-1 gap-2">
-            {row.slides?.map((item, index) =>
-              item?.type === 'image' ? (
-                <div className={'mx-1'}>Изображение</div>
-              ) : (
-                <div className={'mx-1'}>Видео</div>
-              )
-            )}
+      id: 'createdAt',
+      key: 'createdAt',
+      width: '20%',
+      title: 'Время создания',
+      render: (row, head) => (
+          <div key={row?.id} className={'overflow-ellipsis'}>
+            {convertToCustomFormat(row.createdAt)}
           </div>
-        )
-      },
+      ),
     },
     {
       id: 'image',
@@ -33,41 +26,22 @@ const StoriesList = ({ setFilters, filters, stories, total, setSelectedStory }) 
       width: '30%',
       title: 'Изображение',
       render: (row, head) => {
-        return <Image height={50} src={row?.image_url?.[lang]} />
+        return <Image height={50} src={row?.image?.[lang]} />
       },
     },
     {
-      id: 'slides',
-      key: 'slides',
-      title: 'Слайды',
-      width: '30%',
-      render: (row, head) => {
-        return (
-          <div className="flex flex-1 gap-2">
-            {row.slides?.map((item, index) =>
-              item?.type === 'image' ? (
-                <Image key={index} height={50} src={item?.image_url?.[lang]} />
-              ) : (
-                <Image key={index} height={50} src={row?.image_url?.[lang]} />
-              )
-            )}
-          </div>
-        )
-      },
-    },
-    {
-      id: 'status',
-      key: 'status',
+      id: 'isActive',
+      key: 'isActive',
       align: 'left',
       width: '10%',
-      sorter: (a, b) => (a.status && b.status === 'active' ? 1 : a.status !== 'active' ? 1 : 0),
+      sorter: (a, b) => (a.isActive && b.isActive ? 1 : !a.isActive ? 1 : 0),
       render: (row, head) => (
-        <Badge
-          key={row?.id}
-          showZero
-          color={row?.status === 'active' ? '#52c41a' : '#faad14'}
-          count={row?.status === 'active' ? 'активный' : 'неактивный'}
-        />
+          <Badge
+              key={row?.id}
+              showZero
+              color={row?.isActive ? '#52c41a' : '#faad14'}
+              count={row?.isActive ? 'активный' : 'неактивный'}
+          />
       ),
       title: 'Статус',
     },
@@ -79,45 +53,45 @@ const StoriesList = ({ setFilters, filters, stories, total, setSelectedStory }) 
 
   const onClickAdd = () => {
     setSelectedStory({
-      status: 'active',
-      image_url: {
+      isActive: true,
+      image: {
         ru: '',
         uz: '',
       },
       slides: [
         {
-          clickable_area: 'Top',
-          image_url: { ru: '', uz: '' },
-          status: 'active',
-          type: 'image',
+          clickableArea: 'TOP',
+          image: { ru: '', uz: '' },
+          isActive: true,
+          type: 'IMAGE',
         },
       ],
     })
   }
 
   return (
-    <div className="p-4 rounded-3xl flex flex-col gap-6 bg-white">
-      <div className="flex justify-between ">
-        <div className={'text-3xl font-semibold mt-1'}>Истории</div>
-        <Button
-          onClick={onClickAdd}
-          size={'sm'}
-          className={'flex align-middle pointer-events-auto'}
-        >
-          <Typography className={'font-semibold'} style={{ fontSize: '12px', margin: '3px' }}>
-            Добавить
-          </Typography>
-        </Button>
+      <div className="p-4 rounded-3xl flex flex-col gap-6 bg-white">
+        <div className="flex justify-between ">
+          <div className={'text-3xl font-semibold mt-1'}>Истории</div>
+          <Button
+              onClick={onClickAdd}
+              size={'sm'}
+              className={'flex align-middle pointer-events-auto'}
+          >
+            <Typography className={'font-semibold'} style={{ fontSize: '12px', margin: '3px' }}>
+              Добавить
+            </Typography>
+          </Button>
+        </div>
+        <AntTable
+            headCells={headCells}
+            rows={stories}
+            total={total}
+            onClickRow={onClickRow}
+            filters={filters}
+            setFilters={setFilters}
+        />
       </div>
-      <AntTable
-        headCells={headCells}
-        rows={stories}
-        total={total}
-        onClickRow={onClickRow}
-        filters={filters}
-        setFilters={setFilters}
-      />
-    </div>
   )
 }
 

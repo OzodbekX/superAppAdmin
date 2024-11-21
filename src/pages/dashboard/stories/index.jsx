@@ -10,13 +10,13 @@ const Stories = () => {
   const [list, setList] = useState([])
 
   const { data } = useQuery({
-    queryKey: ['fetchStories', filters], // The query key depends on the page and pageSize
-    queryFn: () => getStories({ offset: filters.page * filters.pageSize, limit: filters.pageSize,types:"SUPERAPP" }), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
-    retry: false,
-    queryHash: 'fetchStories',
-    gcTime: 20 * 60 * 1000,
-    staleTime: 'Infinity',
+    queryKey: ['fetchStoriesNew', filters?.page, filters?.pageSize], // The query key depends on the page and pageSize
+    queryFn: () =>
+      getStories({
+        offset: filters.page * filters.pageSize,
+        limit: filters.pageSize,
+        types: 'SUPERAPP',
+      }), // Fetch the correct page
   })
 
   const onUpdateList = (changedData, type) => {
@@ -30,10 +30,12 @@ const Stories = () => {
       const newList = list.filter((item) => changedData.id !== item?.id)
       setList(newList)
     } else if (type === 'create') {
+      debugger
       setList([changedData, ...list]) // Set the new list which triggers a re-render
     }
     setSelectedStory(undefined)
   }
+
   useEffect(() => {
     setList(data?.data)
   }, [data])
@@ -50,7 +52,7 @@ const Stories = () => {
         <StoriesList
           stories={list}
           setFilters={setFilters}
-          total={data?.data?.length}
+          total={data?.meta?.total}
           filters={filters}
           setSelectedStory={setSelectedStory}
         />

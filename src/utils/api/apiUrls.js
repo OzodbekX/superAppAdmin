@@ -4,7 +4,7 @@ export const apiUrls = {
   fileUrl: '/api/v1/minio/upload/files',
   imageUrl: '/api/v1/minio/upload/image',
   navigationCards: '/api/v1/cards',
-  stories: '/api/v2/stories/dashboard',
+  stories: '/api/v1/stories',
   news: '/api/v1/news',
   chatMessages: '/api/message/v1/chatMessages',
   chatsActiveChats: '/api/chat/v1/activeChats',
