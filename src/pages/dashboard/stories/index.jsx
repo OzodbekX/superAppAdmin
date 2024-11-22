@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getStories } from '@/utils/api/functions.js'
 
 const Stories = () => {
-  const [filters, setFilters] = useState({ pageSize: 10, page: 0 })
+  const [filters, setFilters] = useState({ pageSize: 100, page: 0 })
   const [selectedStory, setSelectedStory] = useState()
   const [list, setList] = useState([])
 
