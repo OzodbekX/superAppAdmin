@@ -22,7 +22,7 @@ const headCells = [
     id: 'createdAt',
     key: 'createdAt',
     width: '20%',
-    title: 'Время подачи заявки',
+    title: 'время создания',
     render: (row) => (
       <div key={row?.id} className={'overflow-ellipsis'}>
         {convertToCustomFormat(row.createdAt)}

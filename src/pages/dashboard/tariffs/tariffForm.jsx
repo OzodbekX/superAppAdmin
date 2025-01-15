@@ -97,11 +97,15 @@ export default function TariffForm({
       })
       values.devicesMinAmount = Number(values?.devicesMinAmount)
       values.devicesMaxAmount = Number(values?.devicesMaxAmount)
+      values.position = Number(values.position)
       values.categories = selectedTariff?.categories || []
-      values.price = selectedTariff?.price || []
-      // values.price = getRandomNumberFromArray([
-      //   100000, 110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000,
-      // ])
+      if (!values?.price) {
+        values.price = selectedTariff?.price || []
+      } else {
+        values.price = Number(values?.price)
+      }
+      // values.price = selectedTariff?.price || []
+      // values.price = 200000
       try {
         if (selectedTariff?.id) {
           onUpdateTariff.mutate({ id: selectedTariff.id, params: values })
@@ -371,7 +375,6 @@ export default function TariffForm({
           </div>
           <div className="flex-1">
             <h4 className="text-lg font-medium mb-2">Тип жилья</h4>
-
             <Form.Item
               label="Выберите тип жилья"
               name="apartmentTypes"
@@ -389,6 +392,22 @@ export default function TariffForm({
                   </Option>
                 ))}
               </Select>
+            </Form.Item>
+            <Form.Item
+              className="flex-1"
+              label="Позиция"
+              name="position"
+              rules={[{ required: true, message: 'Введите позицию' }]}
+            >
+              <Input placeholder="Введите позицию" />
+            </Form.Item>
+            <Form.Item
+              className="flex-1"
+              label="price"
+              name="price"
+              rules={[{ required: true, message: 'Введите позицию' }]}
+            >
+              <Input placeholder="price" />
             </Form.Item>
           </div>
         </div>

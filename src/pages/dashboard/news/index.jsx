@@ -2,7 +2,7 @@ import NewsList from './list'
 import { fetchNews } from '@/utils/api/functions.js'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import NewsForm from '@/pages/dashboard/News/form.jsx'
+import NewsForm from '@/pages/dashboard/news/form.jsx'
 
 const News = () => {
   const [filters, setFilters] = useState({ pageSize: 10, page: 0, update: 1 })
@@ -12,7 +12,6 @@ const News = () => {
   const { data } = useQuery({
     queryKey: ['fetchNews', filters], // The query key depends on the page and pageSize
     queryFn: () => fetchNews({ offset: filters.page * filters.pageSize, limit: filters.pageSize }), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
     retry: false,
     gcTime: 20 * 60 * 1000,
     staleTime: 'Infinity',

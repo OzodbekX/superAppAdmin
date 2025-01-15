@@ -1,9 +1,11 @@
 import {
+  AdjustmentsHorizontalIcon,
+  ArrowDownTrayIcon,
   BuildingOfficeIcon,
   ChatBubbleLeftRightIcon,
   CurrencyDollarIcon,
   DeviceTabletIcon,
-  HomeIcon,
+  DocumentCheckIcon,
   NewspaperIcon,
   PhoneIcon,
   PlayCircleIcon,
@@ -15,8 +17,9 @@ import {
   TicketIcon,
   TvIcon,
   WindowIcon,
+  UserGroupIcon,
+  UsersIcon,
 } from '@heroicons/react/24/solid'
-import { Home } from '@/pages/dashboard'
 import { SignIn, SignUp } from '@/pages/auth'
 import Stories from '@/pages/dashboard/stories'
 import Tariffs from '@/pages/dashboard/tariffs/index.jsx'
@@ -31,7 +34,12 @@ import Offices from '@/pages/dashboard/offices/index.jsx'
 import Banners from '@/pages/dashboard/banners/index.jsx'
 import FAQs from '@/pages/dashboard/FAQ/index.jsx'
 import Services from '@/pages/dashboard/services/index.jsx'
-import FAQChat from '@/pages/dashboard/chat/FAQ/index.jsx'
+import FAQChatContainer from '@/pages/dashboard/chat/faqAndCategories/index.jsx'
+import Unloading from '@/pages/dashboard/chat/Unloading/index.jsx'
+import RateOptions from '@/pages/dashboard/chat/RateOptions/index.jsx'
+import ConnectRequests from '@/pages/dashboard/requests/connectRequests/index.jsx'
+import CallBackListsFromChat from '@/pages/dashboard/chat/callBackListsFromChat/index.jsx'
+import StaffManagement from '@/pages/dashboard/userManagement/staffs/index.jsx'
 
 const icon = {
   className: 'w-5 h-5 text-inherit',
@@ -41,13 +49,13 @@ export const routes = [
   {
     layout: 'dashboard',
     pages: [
-      {
-        icon: <HomeIcon {...icon} />,
-        name: 'dashboard',
-        id: 'dashboard',
-        path: '/home',
-        element: <Home />,
-      },
+      // {
+      //   icon: <HomeIcon {...icon} />,
+      //   name: 'dashboard',
+      //   id: 'dashboard',
+      //   path: '/home',
+      //   element: <Home />,
+      // },
       {
         icon: <PlayCircleIcon {...icon} />,
         name: 'Истории',
@@ -142,7 +150,28 @@ export const routes = [
       //       name: 'FAQ',
       //       id: 'chat-faqs',
       //       path: '/chat-faqs',
-      //       element: <FAQChat />,
+      //       element: <FAQChatContainer />,
+      //     },
+      //     {
+      //       icon: <ArrowDownTrayIcon {...icon} />,
+      //       name: 'Выгрузка',
+      //       id: 'chat-unload',
+      //       path: '/unload',
+      //       element: <Unloading />,
+      //     },
+      //     {
+      //       icon: <AdjustmentsHorizontalIcon {...icon} />,
+      //       name: 'варианты оценки',
+      //       id: 'rate-options',
+      //       path: '/rate-options',
+      //       element: <RateOptions />,
+      //     },
+      //     {
+      //       icon: <PhoneIcon {...icon} />,
+      //       name: 'Запросы вызова',
+      //       id: 'Запросы вызова',
+      //       path: '/call-back-requests-chat',
+      //       element: <CallBackListsFromChat />,
       //     },
       //   ],
       // },
@@ -157,6 +186,27 @@ export const routes = [
       //       id: 'Запросы вызова',
       //       path: '/call-back-requests',
       //       element: <CallBackRequests />,
+      //     },
+      //     {
+      //       icon: <DocumentCheckIcon {...icon} />,
+      //       name: 'связь',
+      //       id: 'связь',
+      //       path: '/connection',
+      //       element: <ConnectRequests />,
+      //     },
+      //   ],
+      // },
+      // {
+      //   icon: <UserGroupIcon {...icon} />,
+      //   name: 'Пользователи',
+      //   id: 'Пользователи',
+      //   children: [
+      //     {
+      //       icon: <UsersIcon {...icon} />,
+      //       name: 'Сотрудники',
+      //       id: 'Сотрудники',
+      //       path: '/users-management',
+      //       element: <StaffManagement />,
       //     },
       //   ],
       // },

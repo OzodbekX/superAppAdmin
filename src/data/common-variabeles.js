@@ -11,6 +11,7 @@ export const pageOptions = [
   { value: 'about-company', label: 'О компании' },
   { value: 'turon-telecom-service', label: 'Сервисы' },
   { value: 'economic-tariffs', label: 'Экономичный базовый' },
+  { value: 'navigate-us', label: 'Контакты' },
 ]
 export const pageOptionsCategory = [
   { value: 'internet-for-gamers', label: 'Для геймеров' },

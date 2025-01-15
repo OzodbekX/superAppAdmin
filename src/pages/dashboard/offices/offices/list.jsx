@@ -6,7 +6,7 @@ import { useCallback } from 'react'
 import { Badge, Button, Image, Select } from 'antd'
 import { debounce } from 'lodash'
 
-const OfficeList = ({ setFilters, filters, cityList, list, total, setSelectedOffice }) => {
+const OfficeList = ({ setFilters, filters, cityList = [], list, total, setSelectedOffice }) => {
   const lang = userStore((state) => state.language)
   const headCells = [
     {
@@ -55,7 +55,7 @@ const OfficeList = ({ setFilters, filters, cityList, list, total, setSelectedOff
       align: 'left',
       title: 'Статус',
       filterSearch: true,
-      sorter: (a, b) => (a.isActive && b.isActive ? 0 : a.isActive ? 1 : -1),
+      sorter: (a, b) => (a?.isActive && b?.isActive ? 0 : a?.isActive ? 1 : -1),
       render: (row, head) => (
         <Badge
           key={row?.id}
@@ -129,7 +129,7 @@ const OfficeList = ({ setFilters, filters, cityList, list, total, setSelectedOff
       </div>
       <AntTable
         headCells={headCells}
-        rows={list}
+        rows={list || []}
         total={total}
         onClickRow={onClickRow}
         filters={filters}

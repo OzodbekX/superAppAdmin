@@ -5,18 +5,14 @@ import { useQuery } from '@tanstack/react-query'
 import { getStories } from '@/utils/api/functions.js'
 
 const Stories = () => {
-  const [filters, setFilters] = useState({ pageSize: 100, page: 0 })
+  const [filters, setFilters] = useState({ pageSize: 10, page: 0 })
   const [selectedStory, setSelectedStory] = useState()
   const [list, setList] = useState([])
 
   const { data } = useQuery({
     queryKey: ['fetchStoriesNew', filters?.page, filters?.pageSize], // The query key depends on the page and pageSize
-    queryFn: () =>
-      getStories({
-        offset: filters.page * filters.pageSize,
-        limit: filters.pageSize,
-        types: 'SUPERAPP',
-      }), // Fetch the correct page
+    queryFn: () => getStories({ offset: filters.page * filters.pageSize, limit: filters.pageSize, types: 'SUPERAPP'
+    }), // Fetch the correct page
   })
 
   const onUpdateList = (changedData, type) => {
@@ -30,7 +26,6 @@ const Stories = () => {
       const newList = list.filter((item) => changedData.id !== item?.id)
       setList(newList)
     } else if (type === 'create') {
-      debugger
       setList([changedData, ...list]) // Set the new list which triggers a re-render
     }
     setSelectedStory(undefined)

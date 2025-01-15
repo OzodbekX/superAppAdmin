@@ -11,7 +11,6 @@ export default function CityForm({ selectedCity, onUpdateList, setSelectedCity }
     // Optional callbacks
     mutationFn: updateCity,
     onSuccess: (data) => {
-      setSelectedCity(undefined)
       onUpdateList(data, 'update')
     },
   })
@@ -20,8 +19,7 @@ export default function CityForm({ selectedCity, onUpdateList, setSelectedCity }
     // Optional callbacks
     mutationFn: deleteCity,
     onSuccess: (data) => {
-      setSelectedCity(undefined)
-      onUpdateList(data?.data, 'delete')
+      onUpdateList(selectedCity, 'delete')
     },
   })
 
@@ -29,7 +27,6 @@ export default function CityForm({ selectedCity, onUpdateList, setSelectedCity }
     // Optional callbacks
     mutationFn: createCity,
     onSuccess: (data) => {
-      setSelectedCity(undefined)
       onUpdateList(data?.data, 'create')
     },
   })

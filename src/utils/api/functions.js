@@ -1,25 +1,47 @@
 // Export specific API calls using the generic function
-import api from './api.js'
 import axiosInstance from './api.js'
 import { apiUrls } from '@/utils/api/apiUrls.js'
 import chatAxiosInstance from '@/utils/api/chatApi.js'
 
-
 export const login = async (params) => {
   return await axiosInstance
-      .post(apiUrls.login, params)
-      .then((res) => {
-        return res.data
-      })
-      .catch((err) => {
-        throw new Error(err)
-      })
+    .post(apiUrls.login, params)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
 }
 export const fetchTariffs = async (params) => {
   return await axiosInstance.get(apiUrls.dashboardTariffs, { params: params }).then((res) => {
     return res.data
   })
 }
+
+export const getTicketCities = async (params) => {
+  return await axiosInstance.get(apiUrls.getCities, { params: params }).then((res) => {
+    return res.data?.data
+  })
+}
+
+export const getDistricts = async (params) => {
+  return await axiosInstance.get(apiUrls.getDistricts, { params: params }).then((res) => {
+    return res.data?.data
+  })
+}
+
+export const getRegions = async (params) => {
+  return await axiosInstance.get(apiUrls.getDistricts, { params: params }).then((res) => {
+    return res.data?.data
+  })
+}
+export const getRegionTypes = async (params) => {
+  return await axiosInstance.get(apiUrls.getRegionTypes, { params: params }).then((res) => {
+    return res.data?.data
+  })
+}
+
 export const fetchTariffsWithConnectedDevices = async (id) => {
   return await axiosInstance.get(apiUrls.products + `/${id}/internet-tariffs`).then((res) => {
     return res.data?.data
@@ -46,7 +68,14 @@ export const connectDeviceToTariff = async ({ id, params }) => {
       throw new Error(err)
     })
 }
+
 export const fetchDevicesWithConnectedTariffs = async (id) => {
+  return await axiosInstance.get(apiUrls.dashboardTariffs + `/${id}/devices`).then((res) => {
+    return res.data?.data
+  })
+}
+
+export const fetchAnotherTariffList = async (id) => {
   return await axiosInstance.get(apiUrls.dashboardTariffs + `/${id}/devices`).then((res) => {
     return res.data?.data
   })
@@ -137,7 +166,7 @@ export const removeTariffToCategory = async (ids) => {
 }
 export const getStories = async (params) => {
   return await axiosInstance
-    .get(apiUrls.stories,{params})
+    .get(apiUrls.stories, { params })
     .then((res) => {
       return res.data
     })
@@ -252,6 +281,11 @@ export const updateNews = async (params) => {
     })
 }
 
+export const fetchTickets = async (params) => {
+  return await axiosInstance.get(apiUrls.tickets, { params }).then((res) => {
+    return res.data
+  })
+}
 export const fetchCallBackRequest = async (params) => {
   return await axiosInstance.get(apiUrls.callBackRequests, { params: params }).then((res) => {
     return res.data
@@ -267,7 +301,11 @@ export const updateRequest = async (params) => {
       throw new Error(err)
     })
 }
-
+export const fetchRoles = async (params) => {
+  return await axiosInstance.get(apiUrls.roles, { params }).then((res) => {
+    return res.data
+  })
+}
 export const fetchChannels = async (params) => {
   return await axiosInstance.get(apiUrls.channels, { params: params }).then((res) => {
     return res.data
@@ -393,7 +431,7 @@ export const deleteOffice = async (id) => {
 }
 export const updateOffice = async (params) => {
   return await axiosInstance
-    .patch(apiUrls.offices + `/${params?.id}`, params?.params)
+    .put(apiUrls.offices + `/${params?.id}`, params?.params)
     .then((res) => {
       return res.data
     })
@@ -403,7 +441,7 @@ export const updateOffice = async (params) => {
 }
 
 export const fetchCities = async () => {
-  return await axiosInstance.get(apiUrls.officesCity).then((res) => {
+  return await axiosInstance.get(apiUrls.officesCity, { limit: 100, offset: 0 }).then((res) => {
     return res.data
   })
 }
@@ -429,7 +467,7 @@ export const deleteCity = async (id) => {
 }
 export const updateCity = async (params) => {
   return await axiosInstance
-    .patch(apiUrls.officesCity + `/${params?.id}`, params?.params)
+    .put(apiUrls.officesCity + `/${params?.id}`, params?.params)
     .then((res) => {
       return res.data
     })
@@ -571,9 +609,10 @@ export const deleteBanner = async (id) => {
       throw new Error(err)
     })
 }
+
 export const updateBanner = async (params) => {
   return await axiosInstance
-    .patch(apiUrls.banners + `/${params?.id}`, params?.params)
+    .put(apiUrls.banners + `/${params?.id}`, params?.params)
     .then((res) => {
       return res.data
     })
@@ -625,7 +664,7 @@ export const updateFAQs = async (params) => {
 
 export const fetchService = async (params) => {
   return await axiosInstance
-    .get(apiUrls.services, { params: params })
+    .get(apiUrls.serviceOptions, { params: params })
     .then((res) => {
       return res.data
     })
@@ -655,7 +694,55 @@ export const deleteService = async (id) => {
 }
 export const updateService = async (params) => {
   return await axiosInstance
-    .patch(apiUrls.services + `/${params?.id}`, params?.params)
+    .put(apiUrls.services + `/${params?.id}`, params?.params)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+}
+export const fetchStaff = async (id) => {
+  if (id) {
+    return await axiosInstance.get(apiUrls.staffs + `/${id}`).then((res) => {
+      return res.data?.data
+    })
+  } else return undefined
+}
+
+export const fetchStaffs = async (params) => {
+  return await axiosInstance
+    .get(apiUrls.staffs, { params: params })
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+}
+export const createStaffs = async (params) => {
+  return await axiosInstance
+    .post(apiUrls.staffs, params)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+}
+export const deleteStaffs = async (id) => {
+  return await axiosInstance
+    .delete(apiUrls.staffs + `/${id}`)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+}
+export const updateStaffs = async (params) => {
+  return await axiosInstance
+    .put(apiUrls.staffs + `/${params?.id}`, params?.params)
     .then((res) => {
       return res.data
     })
@@ -691,7 +778,7 @@ export const deleteServiceOption = async (id) => {
 }
 export const updateServiceOption = async (params) => {
   return await axiosInstance
-    .patch(apiUrls.serviceOptions + `/${params?.id}`, params?.params)
+    .put(apiUrls.serviceOptions + `/${params?.id}`, params?.params)
     .then((res) => {
       return res.data
     })
@@ -728,9 +815,14 @@ export const disConnectServiceToOption = async ({ id, serviceId }) => {
     })
 }
 
-export const fetchChatFAQs = async () => {
+export const fetchUsersArchiveChats = async (params) => {
+  return await chatAxiosInstance.get(apiUrls.userArchivedChats, { params: params }).then((res) => {
+    return res.data?.data
+  })
+}
+export const fetchChatFAQs = async (params) => {
   return await chatAxiosInstance
-    .get(apiUrls.chatFaqs)
+    .get(apiUrls.chatFaqs, { params: params })
     .then((res) => {
       return res.data
     })
@@ -750,7 +842,7 @@ export const createChatFAQs = async (params) => {
 }
 export const deleteChatFAQs = async (id) => {
   return await chatAxiosInstance
-    .delete(apiUrls.chatFaqsCreate, { params: { id } })
+    .delete(apiUrls.chatFaqs, { params: { id } })
     .then((res) => {
       return res.data
     })
@@ -761,6 +853,58 @@ export const deleteChatFAQs = async (id) => {
 export const updateChatFAQs = async (params) => {
   return await chatAxiosInstance
     .post(apiUrls.updateChatFaq, params)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+}
+
+export const fetchChatOperators = async () => {
+  return await chatAxiosInstance
+    .get(apiUrls.getOperators)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+}
+export const fetchChatFAQsCategories = async () => {
+  return await chatAxiosInstance
+    .get(apiUrls.chatFaqCategoryAdmin)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+}
+export const createChatFAQsCategories = async (params) => {
+  return await chatAxiosInstance
+    .post(apiUrls.chatFaqCategoryAdmin, params)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+}
+export const deleteChatFAQsCategories = async (id) => {
+  return await chatAxiosInstance
+    .delete(apiUrls.chatFaqCategoryAdmin + `/${id}`)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+}
+
+export const updateChatFAQsCategories = async (params) => {
+  return await chatAxiosInstance
+    .post(apiUrls.chatFaqCategoryAdminUpdate, params)
     .then((res) => {
       return res.data
     })
@@ -781,4 +925,84 @@ export const getRoomMessages = async (chatId) => {
       return res.data?.data
     })
   else return []
+}
+export const getStatistics = async (params) => {
+  return chatAxiosInstance.get(apiUrls.getStatistics, { params }).then((res) => {
+    return res.data?.data
+  })
+}
+
+export const getRotFaqs = async (categoryId) => {
+  return chatAxiosInstance.get(apiUrls.chatFaqsCreate, { params: { categoryId } }).then((res) => {
+    return res.data?.data
+  })
+}
+
+export const getRateOptions = async () => {
+  return chatAxiosInstance.get(apiUrls.ratePatterns).then((res) => {
+    return res.data?.data
+  })
+}
+export const createRateOptions = async (params) => {
+  return await chatAxiosInstance
+    .post(apiUrls.createRatePatterns, params)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+}
+export const deleteRateOptions = async (id) => {
+  return await chatAxiosInstance
+    .delete(apiUrls.createRatePatterns, { params: { id } })
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+}
+
+export const updateRateOptions = async (params) => {
+  return await chatAxiosInstance
+    .post(apiUrls.updateRatePatterns, params)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+}
+
+export const archiveCallBacks = async (params) => {
+  return await chatAxiosInstance
+    .post(apiUrls.updateCallBackStatus, params)
+    .then((res) => {
+      return res.data?.data
+    })
+    .catch((err) => {
+      throw new Error(err)
+    })
+}
+
+export const getSubFaqs = async (categoryId, parentFaqId) => {
+  return chatAxiosInstance
+    .get(apiUrls.chatFaqsCreate, { params: { categoryId, parentFaqId } })
+    .then((res) => {
+      return res.data?.data
+    })
+}
+
+export const getRateById = async (reasonIds) => {
+  const ids = reasonIds?.join(',')
+  return chatAxiosInstance.get(apiUrls.getReasonsByIds, { params: { ids } }).then((res) => {
+    return res.data?.data
+  })
+}
+
+export const getChatCallBackApplications = async (params) => {
+  return chatAxiosInstance.get(apiUrls.callback, { params: params }).then((res) => {
+    return res.data
+  })
 }

@@ -26,9 +26,11 @@ const UploadImage = ({ field, form, accept }) => {
       })
     return false // Prevent automatic upload by Ant Design (for manual control)
   }
+
   useEffect(() => {
     setUrl(form.getFieldValue(field))
-  }, [form, field])
+  }, [form, field, accept])
+
   return (
     <div className={'flex flex-col align-center'}>
       <Upload
@@ -43,7 +45,7 @@ const UploadImage = ({ field, form, accept }) => {
           <Image
             className={'m-3 rounded-xl'}
             style={{ maxWidth: '80%', maxHeight: '200px' }}
-            src={form.getFieldValue(field)}
+            src={url || form.getFieldValue(field)}
           />
         ) : (
           <video

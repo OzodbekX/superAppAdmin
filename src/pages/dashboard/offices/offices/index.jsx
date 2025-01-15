@@ -10,8 +10,8 @@ const Offices = () => {
   const [list, setList] = useState([])
   const { data: cityList } = useQuery({
     queryKey: ['fetchCities'], // The query key depends on the page and pageSize
-    queryFn: () => fetchCities(), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
+    queryFn: fetchCities, // Fetch the correct page
+
     retry: false,
     initialData: [],
     gcTime: 20 * 60 * 1000,
@@ -21,7 +21,7 @@ const Offices = () => {
     queryKey: ['fetchOffice', filters], // The query key depends on the page and pageSize
     queryFn: () =>
       fetchOffice({ offset: filters.page * filters.pageSize, limit: filters.pageSize }), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
+
     retry: false,
     initialData: [],
     gcTime: 20 * 60 * 1000,
@@ -30,27 +30,28 @@ const Offices = () => {
 
   const onUpdateList = (changedData, type) => {
     if (type === 'update') {
-      const updatedList = list.map((item) =>
+      const updatedList = list?.map((item) =>
         item.id === changedData.id ? { ...item, ...changedData } : item
       )
       setList(updatedList) // Set the new list which triggers a re-render
     } else if (type === 'delete') {
-      const newList = list.filter((item) => changedData.id !== item?.id)
+      const newList = list?.filter((item) => changedData.id !== item?.id)
       setList(newList)
     } else if (type === 'create') {
       setList([changedData, ...list]) // Set the new list which triggers a re-render
     }
+    setSelectedOffice(undefined)
   }
 
   useEffect(() => {
-    setList(data?.data)
+    setList(data?.data || [])
   }, [data])
 
   return (
     <div>
       {selectedOffice ? (
         <OfficeForm
-          cityList={cityList}
+          cityList={cityList?.data || []}
           onUpdateList={onUpdateList}
           selectedOffice={selectedOffice}
           setSelectedOffice={setSelectedOffice}
@@ -58,7 +59,7 @@ const Offices = () => {
         />
       ) : (
         <OfficeList
-          cityList={cityList}
+          cityList={cityList?.data || []}
           list={list}
           currentPage={filters.page}
           total={data?.meta?.total}

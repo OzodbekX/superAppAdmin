@@ -11,8 +11,8 @@ const Cities = () => {
 
   const { data } = useQuery({
     queryKey: ['fetchCities', filters], // The query key depends on the page and pageSize
-    queryFn: () => fetchCities(), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
+    queryFn: fetchCities, // Fetch the correct page
+
     retry: false,
     gcTime: 20 * 60 * 1000,
     staleTime: 'Infinity',
@@ -30,10 +30,11 @@ const Cities = () => {
     } else if (type === 'create') {
       setList([changedData, ...list]) // Set the new list which triggers a re-render
     }
+    setSelectedCity(undefined)
   }
 
   useEffect(() => {
-    setList(data)
+    setList(data?.data || [])
   }, [data])
 
   return (

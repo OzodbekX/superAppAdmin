@@ -8,10 +8,12 @@ const CityList = ({ setFilters, filters, list, total, setSelectedCity }) => {
   const headCells = [
     {
       id: 'id',
-      key: 'Id',
-      dataIndex: ['id'],
-      width: '30%',
-      title: 'Id',
+      key: 'id',
+      width: '5%',
+      title: '№',
+      render: (row, head, index) => {
+        return <div>{index + 1}</div>
+      },
     },
     {
       id: 'name_uz',

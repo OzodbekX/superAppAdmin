@@ -18,7 +18,6 @@ const ConnectTariffsToRouters = ({ list, total, filters, setFilters }) => {
   const { data: tariffList } = useQuery({
     queryKey: ['fetchTariffs'], // The query key depends on the page and pageSize
     queryFn: () => fetchTariffs({ offset: 0, limit: 100 }), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
     retry: false,
     gcTime: 20 * 60 * 1000,
     staleTime: 'Infinity',
@@ -27,7 +26,6 @@ const ConnectTariffsToRouters = ({ list, total, filters, setFilters }) => {
   const { data: connectedTariffList } = useQuery({
     queryKey: ['fetchTariffsWithConnectedDevices', selectedDevice, updateList], // The query key depends on the page and pageSize
     queryFn: () => fetchTariffsWithConnectedDevices(selectedDevice?.[0]), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
     gcTime: 20 * 60 * 1000,
     enabled: !!selectedDevice?.[0],
   })
@@ -61,7 +59,9 @@ const ConnectTariffsToRouters = ({ list, total, filters, setFilters }) => {
       list = [{ id: selectedTariff, position: 0, name: tariff?.name }]
       if (connectedList) {
         connectedList?.forEach((item, index) => {
-          list.push({ id: item?.id, position: index + 1, name: item?.name })
+          if (!list.some((i) => i.id === item.id)) {
+            list.push({ id: item?.id, position: index + 1, name: item?.name })
+          }
         })
       }
     }
@@ -122,7 +122,7 @@ const ConnectTariffsToRouters = ({ list, total, filters, setFilters }) => {
             className={'w-1/2 my-4'}
           >
             {tariffList?.data
-              ?.filter((item) => !connectedList?.some((i) => i.id == item?.id))
+              ?.filter((item) => !connectedList?.some((i) => i.id === item?.id))
               ?.map((tariff) => (
                 <Select.Option value={tariff.id}>{tariff.name?.[lang]}</Select.Option>
               ))}

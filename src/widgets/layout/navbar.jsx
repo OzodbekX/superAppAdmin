@@ -71,7 +71,7 @@ export function Navbar({ brandName, routes, action }) {
 }
 
 Navbar.defaultProps = {
-  brandName: 'Super App Admin',
+  brandName: 'Turon App Admin',
   action: (
     <a
       href="https://www.creative-tim.com/product/material-tailwind-dashboard-react"

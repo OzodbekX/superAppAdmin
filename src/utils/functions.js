@@ -48,3 +48,6 @@ export function dayjsToSeconds(dayjsObj) {
 function difference(arr1, arr2) {
   return arr1.filter((element) => !arr2.some((i) => i?.id === element?.id))
 }
+export const getImageUrl = (name) => {
+  return import.meta.env.VITE_IMAGE_SERVER_URL + name
+}

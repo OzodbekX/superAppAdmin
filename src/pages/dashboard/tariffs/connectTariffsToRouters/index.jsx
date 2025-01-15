@@ -20,7 +20,7 @@ const ConnectTariffsToRouters = ({ filters, setFilters, list, total }) => {
   const { data: deviceList } = useQuery({
     queryKey: ['fetchWifiDevices'], // The query key depends on the page and pageSize
     queryFn: () => fetchWifiDevices({ offset: 0, limit: 100 }), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
+
     retry: false,
     gcTime: 20 * 60 * 1000,
     staleTime: 'Infinity',
@@ -29,7 +29,7 @@ const ConnectTariffsToRouters = ({ filters, setFilters, list, total }) => {
   const { data: connectedDevicesList } = useQuery({
     queryKey: ['fetchDevicesWithConnectedTariffs', selectedTariff, updateList], // The query key depends on the page and pageSize
     queryFn: () => fetchDevicesWithConnectedTariffs(selectedTariff?.[0]), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
+
     gcTime: 20 * 60 * 1000,
     enabled: !!selectedTariff?.[0],
   })

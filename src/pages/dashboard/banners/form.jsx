@@ -38,7 +38,7 @@ export default function BannerForm({
   const onAddBanner = useMutation({
     mutationFn: createBanner,
     onSuccess: (data) => {
-      onUpdateList(data, 'create')
+      onUpdateList(data?.data, 'create')
     },
   })
 
@@ -202,7 +202,7 @@ export default function BannerForm({
                 className="flex-1"
                 rules={[{ required: true, message: 'Введите позицию кнопки!' }]}
               >
-                <Input placeholder="Введите позицию кнопки" />
+                <Input type="number" placeholder="Введите позицию кнопки" />
               </Form.Item>
               {/*<Form.Item name={['button', 'link']} label="Ссылка кнопки" className="flex-1">*/}
               {/*  <Input placeholder="Введите ссылку кнопки" />*/}
@@ -211,10 +211,10 @@ export default function BannerForm({
           </>
         )}
         <h4 className="text-lg font-semibold mt-4">Изображения</h4>
-        {['desktopImageUrl', 'mobileImageUrl'].map((imageType) => (
+        {['desktopImageURL', 'mobileImageURL'].map((imageType) => (
           <div key={imageType} className="mb-4">
             <div className="mb-2 font-semibold text-gray-600">
-              {imageType === 'mobileImageUrl' ? 'Мобильное изображение' : 'Десктопное изображение'}
+              {imageType === 'mobileImageURL' ? 'Мобильное изображение' : 'Десктопное изображение'}
             </div>
             <div className="flex gap-4">
               {['uz', 'ru'].map((lang) => (

@@ -15,9 +15,9 @@ const StoriesList = ({ setFilters, filters, stories, total, setSelectedStory }) 
       width: '20%',
       title: 'Время создания',
       render: (row, head) => (
-          <div key={row?.id} className={'overflow-ellipsis'}>
-            {convertToCustomFormat(row.createdAt)}
-          </div>
+        <div key={row?.id} className={'overflow-ellipsis'}>
+          {convertToCustomFormat(row.createdAt)}
+        </div>
       ),
     },
     {
@@ -36,12 +36,12 @@ const StoriesList = ({ setFilters, filters, stories, total, setSelectedStory }) 
       width: '10%',
       sorter: (a, b) => (a.isActive && b.isActive ? 1 : !a.isActive ? 1 : 0),
       render: (row, head) => (
-          <Badge
-              key={row?.id}
-              showZero
-              color={row?.isActive ? '#52c41a' : '#faad14'}
-              count={row?.isActive ? 'активный' : 'неактивный'}
-          />
+        <Badge
+          key={row?.id}
+          showZero
+          color={row?.isActive ? '#52c41a' : '#faad14'}
+          count={row?.isActive ? 'активный' : 'неактивный'}
+        />
       ),
       title: 'Статус',
     },
@@ -70,28 +70,28 @@ const StoriesList = ({ setFilters, filters, stories, total, setSelectedStory }) 
   }
 
   return (
-      <div className="p-4 rounded-3xl flex flex-col gap-6 bg-white">
-        <div className="flex justify-between ">
-          <div className={'text-3xl font-semibold mt-1'}>Истории</div>
-          <Button
-              onClick={onClickAdd}
-              size={'sm'}
-              className={'flex align-middle pointer-events-auto'}
-          >
-            <Typography className={'font-semibold'} style={{ fontSize: '12px', margin: '3px' }}>
-              Добавить
-            </Typography>
-          </Button>
-        </div>
-        <AntTable
-            headCells={headCells}
-            rows={stories}
-            total={total}
-            onClickRow={onClickRow}
-            filters={filters}
-            setFilters={setFilters}
-        />
+    <div className="p-4 rounded-3xl flex flex-col gap-6 bg-white">
+      <div className="flex justify-between ">
+        <div className={'text-3xl font-semibold mt-1'}>Истории</div>
+        <Button
+          onClick={onClickAdd}
+          size={'sm'}
+          className={'flex align-middle pointer-events-auto'}
+        >
+          <Typography className={'font-semibold'} style={{ fontSize: '12px', margin: '3px' }}>
+            Добавить
+          </Typography>
+        </Button>
       </div>
+      <AntTable
+        headCells={headCells}
+        rows={stories}
+        total={total}
+        onClickRow={onClickRow}
+        filters={filters}
+        setFilters={setFilters}
+      />
+    </div>
   )
 }
 

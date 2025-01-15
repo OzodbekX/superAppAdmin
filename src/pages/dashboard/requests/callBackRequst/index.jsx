@@ -4,12 +4,17 @@ import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import RequestForm from './form.jsx'
 
+const Options = {
+  TV: 'TV',
+  INTERNET: 'INTERNET',
+  SERVICE: 'SERVICE',
+}
 const CallBackRequests = () => {
   const [filters, setFilters] = useState({
     pageSize: 10,
     page: 0,
     reNew: 0,
-    submitterType: 'natural-person',
+    type: 'CLIENT',
   })
   const [selectedRequest, setSelectedRequest] = useState()
 
@@ -21,32 +26,45 @@ const CallBackRequests = () => {
         limit: filters.pageSize,
         name: filters?.name,
         status: filters?.status,
-        phoneNumber: filters?.phoneNumber,
-        submitterType: filters?.submitterType,
+        q: filters?.searchText,
+        category: filters?.category,
+        phone: filters?.phone,
+        type: filters?.type,
       }), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
     retry: false,
     gcTime: 20 * 60 * 1000,
     staleTime: 'Infinity',
   })
+  // Function to Map Options to Russian Titles
+  const getRussianTitle = (option) => {
+    switch (option) {
+      case Options.TV:
+        return 'ЦТВ'
+      case Options.INTERNET:
+        return 'Интернет'
+      case Options.SERVICE:
+        return 'Сервис'
+      default:
+        return 'Неизвестная опция' // Default case for unknown options
+    }
+  }
 
   return (
     <div>
-      {selectedRequest ? (
-        <RequestForm
-          selectedRequest={selectedRequest}
-          setSelectedRequest={setSelectedRequest}
-          setFilters={setFilters}
-        />
-      ) : (
-        <ApplicationList
-          data={data?.data}
-          total={data?.meta?.total}
-          setFilters={setFilters}
-          filters={filters}
-          setSelectedRequest={setSelectedRequest}
-        />
-      )}
+      <RequestForm
+        getRussianTitle={getRussianTitle}
+        selectedRequest={selectedRequest}
+        setSelectedRequest={setSelectedRequest}
+        setFilters={setFilters}
+      />
+      <ApplicationList
+        getRussianTitle={getRussianTitle}
+        data={data?.data}
+        total={data?.meta?.total}
+        setFilters={setFilters}
+        filters={filters}
+        setSelectedRequest={setSelectedRequest}
+      />
     </div>
   )
 }

@@ -6,6 +6,7 @@ import TariffForm from '@/pages/dashboard/tariffs/tariffForm.jsx'
 import { Tab, TabPanel, Tabs, TabsBody, TabsHeader } from '@material-tailwind/react'
 import { SquaresPlusIcon, TicketIcon } from '@heroicons/react/24/solid'
 import ConnectTariffsToRouters from './connectTariffsToRouters/index.jsx'
+import ConnectTariffsToTariffs from '@/pages/dashboard/tariffs/connectTariffsToTariffs/index.jsx'
 
 const TariffBody = ({ setFilters, onUpdateList, list, total, filters }) => {
   const [selectedTariff, setSelectedTariff] = useState()
@@ -58,7 +59,7 @@ const Tariffs = () => {
     queryKey: ['fetchTariffs', filters], // The query key depends on the page and pageSize
     queryFn: () =>
       fetchTariffs({ offset: filters.page * filters.pageSize, limit: filters.pageSize }), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
+
     retry: false,
     gcTime: 20 * 60 * 1000,
     staleTime: 'Infinity',
@@ -90,6 +91,12 @@ const Tariffs = () => {
           total={data?.meta?.total}
         />
       ),
+    },
+    {
+      title: 'Связь с тарифами.',
+      value: 'Связь с тарифами.',
+      icon: <SquaresPlusIcon className="-mt-1 mr-2 inline-block h-5 w-5" />,
+      body: <ConnectTariffsToTariffs />,
     },
   ]
   const [tabValue, setTabValue] = useState(tabList?.[0].value)

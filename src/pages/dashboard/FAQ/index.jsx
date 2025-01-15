@@ -11,7 +11,6 @@ const FAQs = () => {
   const { data } = useQuery({
     queryKey: ['fetchFAQs', filters], // The query key depends on the page and pageSize
     queryFn: () => fetchFAQs({ offset: filters.page * filters.pageSize, limit: filters.pageSize }), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
     retry: false,
     gcTime: 20 * 60 * 1000,
     staleTime: 'Infinity',

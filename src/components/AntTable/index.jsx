@@ -8,6 +8,7 @@ const AntTable = ({
   onClickRow,
   className = '',
   rowKey = 'id',
+  childrenColumnName = '1231231231312312324323452345',
   setFilters,
   filters,
   rowSelection,
@@ -23,6 +24,7 @@ const AntTable = ({
             onClick: () => onClickRow(record, rowIndex), // click row
           }
         }}
+        expandable={{ childrenColumnName: childrenColumnName }}
         pagination={false}
         columns={headCells}
         dataSource={rows}

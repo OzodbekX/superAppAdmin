@@ -12,7 +12,6 @@ const Banners = () => {
   const { data } = useQuery({
     queryKey: ['fetchBanners', filters], // The query key depends on the page and pageSize
     queryFn: () => fetchBanners({ offset: 0, limit: 100 }), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
     retry: false,
     gcTime: 20 * 60 * 1000,
     staleTime: 'Infinity',
@@ -35,11 +34,11 @@ const Banners = () => {
 
   const bannerTypes = [
     {
-      value: 'promo',
+      value: 'PROMO',
       label: 'Рекламный',
     },
     {
-      value: 'common',
+      value: 'COMMON',
       label: 'Главный баннер страницы',
     },
   ]

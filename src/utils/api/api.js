@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const baseUrl = 'http://84.46.247.18/'
-
+const baseUrl = import.meta.env.VITE_API_URL
+//=== 'production' ? 'http://192.168.64.85/' : 'http://84.46.247.18/'
 const axiosInstance = axios.create({
   baseURL: baseUrl, // Replace with your API base URL
   headers: {

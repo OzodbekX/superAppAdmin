@@ -1,54 +1,54 @@
-import React, { useState } from 'react'
-import { Tab, TabPanel, Tabs, TabsBody, TabsHeader } from '@material-tailwind/react'
-import { FolderOpenIcon, TagIcon } from '@heroicons/react/24/solid'
-import ServiceOptions from '@/pages/dashboard/services/serviceOptions/index.jsx'
-import ServiceTypes from '@/pages/dashboard/services/servicesType/index.jsx'
-import { SquaresPlusIcon } from '@heroicons/react/24/solid/index.js'
-import ConnectServiceToOptions from '@/pages/dashboard/services/connectServiceToOption/index.jsx'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { fetchService } from '@/utils/api/functions.js'
+import DeviceServiceForm from './form.jsx'
+import DeviceServiceList from './list'
 
-const Services = () => {
-  const tabList = [
-    {
-      title: 'Service',
-      value: 'Service',
-      icon: <FolderOpenIcon className="-mt-0.5 mr-2 inline-block h-5 w-5" />,
-      body: <ServiceTypes />,
-    },
-    {
-      title: 'Виды обслуживания.',
-      value: 'Виды обслуживания.',
-      icon: <TagIcon className="-mt-1 mr-2 inline-block h-5 w-5" />,
-      body: <ServiceOptions />,
-    },
-    {
-      title: 'Связать',
-      value: 'Связать',
-      icon: <SquaresPlusIcon className="-mt-1 mr-2 inline-block h-5 w-5" />,
-      body: <ConnectServiceToOptions />,
-    },
-  ]
-  const [tabValue, setTabValue] = useState(tabList?.[0].value)
+const ServiceTypes = () => {
+  const [filters, setFilters] = useState({ pageSize: 10, page: 0, update: 1, renew: false })
+  const [selectedServiceCatalog, setSelectedServiceCatalog] = useState()
+  const [list, setList] = useState([])
+  const { data } = useQuery({
+    queryKey: ['fetchService', filters], // The query key depends on the page and pageSize
+    queryFn: () =>
+      fetchService({ offset: filters.page * filters.pageSize, limit: filters.pageSize }), // Fetch the correct page
+
+    retry: false,
+    initialData: [],
+    gcTime: 20 * 60 * 1000,
+    staleTime: 'Infinity',
+  })
+
+  const onUpdateList = (changedData, type) => {
+    setFilters((prev) => ({ ...prev, renew: !prev?.renew }))
+    setSelectedServiceCatalog(undefined)
+  }
+
+  useEffect(() => {
+    setList(data?.data)
+  }, [data])
+
   return (
-    <div className={'rounded-3xl bg-white'}>
-      <Tabs value={tabValue}>
-        <TabsHeader className={'w-1/2 px-5 m-4'}>
-          {tabList?.map((item, index) => (
-            <Tab onClick={() => setTabValue(item.value)} key={index} value={item.value}>
-              {item.icon}
-              {item.title}
-            </Tab>
-          ))}
-        </TabsHeader>
-        <TabsBody>
-          {tabList.map(({ body, value }) => (
-            <TabPanel key={value} value={value}>
-              {body}
-            </TabPanel>
-          ))}
-        </TabsBody>
-      </Tabs>
+    <div>
+      {selectedServiceCatalog ? (
+        <DeviceServiceForm
+          onUpdateList={onUpdateList}
+          selectedServiceCatalog={selectedServiceCatalog}
+          setSelectedServiceCatalog={setSelectedServiceCatalog}
+          setFilters={setFilters}
+        />
+      ) : (
+        <DeviceServiceList
+          list={list}
+          currentPage={filters.page}
+          total={data?.meta?.total}
+          setFilters={setFilters}
+          filters={filters}
+          setSelectedServiceCatalog={setSelectedServiceCatalog}
+        />
+      )}
     </div>
   )
 }
 
-export default Services
+export default ServiceTypes

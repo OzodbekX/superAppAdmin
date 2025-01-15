@@ -70,9 +70,9 @@ const BannerList = ({ setFilters, bannerTypes, list, setSelectedBanner }) => {
       key: 'image',
       width: '10%',
       title: 'Изображение',
-      dataIndex: ['desktopImageUrl'],
-      render: (desktopImageUrl) => {
-        return <Image height={50} src={desktopImageUrl?.[lang]} />
+      dataIndex: ['desktopImageURL'],
+      render: (desktopImageURL) => {
+        return <Image height={50} src={desktopImageURL?.[lang]} />
       },
     },
   ]

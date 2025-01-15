@@ -40,6 +40,9 @@ const StoryForm = ({ setSelectedStory, onUpdateList, selectedStory }) => {
 
   const handleFinish = (values) => {
     storyForm.validateFields().then((values) => {
+      values.slides.forEach((slide) => {
+        slide.position = Number(slide.position)
+      })
       values.types = ['SUPERAPP']
       try {
         if (selectedStory?.id) {
@@ -115,7 +118,6 @@ const StoryForm = ({ setSelectedStory, onUpdateList, selectedStory }) => {
                     </Button>
                   )}
                 </div>
-
                 <div className="flex gap-4">
                   <Form.Item
                     name={[name, 'type']}
@@ -168,7 +170,6 @@ const StoryForm = ({ setSelectedStory, onUpdateList, selectedStory }) => {
                     <Input type="number" />
                   </Form.Item>
                 </div>
-
                 <Form.Item
                   className={'mb-0'}
                   shouldUpdate={(prevValues, currentValues) =>
@@ -206,9 +207,7 @@ const StoryForm = ({ setSelectedStory, onUpdateList, selectedStory }) => {
                     )
                   }
                 </Form.Item>
-
                 {/* Video Fields (if type is video) */}
-
                 <Form.Item
                   style={{ width: '100%' }}
                   shouldUpdate={(prevValues, currentValues) =>
@@ -240,6 +239,84 @@ const StoryForm = ({ setSelectedStory, onUpdateList, selectedStory }) => {
                           <Form.Item label="Видео (RU)" className={'flex-1'}>
                             <UploadImage
                               field={['slides', name, 'file', 'ru']}
+                              accept={'video/*'}
+                              form={storyForm}
+                            />
+                          </Form.Item>
+                        </div>
+                      </div>
+                    )
+                  }
+                </Form.Item>
+                <Form.Item
+                  className={'mb-0'}
+                  shouldUpdate={(prevValues, currentValues) =>
+                    prevValues.slides?.[name]?.type !== currentValues.slides?.[name]?.type
+                  }
+                >
+                  {({ getFieldValue }) =>
+                    getFieldValue(['slides', name, 'type']) === 'IMAGE' && (
+                      <div className="flex gap-4">
+                        <Form.Item
+                          name={[name, 'mobileFile', 'uz']}
+                          className={'flex-1'}
+                          rules={[{ message: 'Пожалуйста, загрузите изображение', required: true }]}
+                          label="Мобильное изображение (UZ)"
+                        >
+                          <UploadImage
+                            accept={'image/*,image/gif'}
+                            field={['slides', name, 'mobileFile', 'uz']}
+                            form={storyForm}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          name={[name, 'mobileFile', 'ru']}
+                          className={'flex-1'}
+                          rules={[{ message: 'Пожалуйста, загрузите изображение', required: true }]}
+                          label="Мобильное изображение (RU)"
+                        >
+                          <UploadImage
+                            accept={'image/*,image/gif'}
+                            field={['slides', name, 'mobileFile', 'ru']}
+                            form={storyForm}
+                          />
+                        </Form.Item>
+                      </div>
+                    )
+                  }
+                </Form.Item>
+                {/* Video Fields (if type is video) */}
+                <Form.Item
+                  style={{ width: '100%' }}
+                  shouldUpdate={(prevValues, currentValues) =>
+                    prevValues.slides?.[name]?.type !== currentValues.slides?.[name]?.type
+                  }
+                >
+                  {({ getFieldValue }) =>
+                    getFieldValue(['slides', name, 'type']) === 'video' && (
+                      <div style={{ width: '100%' }}>
+                        <h4 className="text-lg font-medium mb-2">Видео</h4>
+
+                        <Form.Item
+                          name={[name, 'duration']}
+                          label="Длительность (в секундах)"
+                          initialValue={3}
+                          style={{ width: 200 }}
+                          className={'flex-1 hidden'}
+                        >
+                          <Input type="number" />
+                        </Form.Item>
+                        <div className="flex gap-4" style={{ width: '100%' }}>
+                          <Form.Item label="Видео (UZ)" className={'flex-1'}>
+                            <UploadImage
+                              field={['slides', name, 'mobileFile', 'uz']}
+                              accept={'video/*'}
+                              form={storyForm}
+                            />
+                          </Form.Item>
+                          <Form.Item label="Видео (RU)" className={'flex-1'}>
+                            <UploadImage
+                              field={['slides', name, 'mobileFile', 'ru']}
                               accept={'video/*'}
                               form={storyForm}
                             />

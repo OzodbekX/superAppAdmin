@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://84.46.247.18:8081'
+const baseUrl = import.meta.env.VITE_CHAT_API_URL
 
 const chatAxiosInstance = axios.create({
   baseURL: baseUrl, // Replace with your API base URL

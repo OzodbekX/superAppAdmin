@@ -1,16 +1,11 @@
-import React, { useEffect } from 'react'
-import { cloneDeep } from 'lodash'
-import { Button, Form, Input, Select } from 'antd'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import {
-  createChannel,
-  fetchChannelCategories,
-  fetchChannelTariffs,
-  updateChannel,
-} from '@/utils/api/functions.js'
-import { userStore } from '@/utils/zustand.js'
+import React, {useEffect} from 'react'
+import {cloneDeep} from 'lodash'
+import {Button, Form, Input, Select} from 'antd'
+import {useMutation, useQuery} from '@tanstack/react-query'
+import {createChannel, fetchChannelCategories, fetchChannelTariffs, updateChannel,} from '@/utils/api/functions.js'
+import {userStore} from '@/utils/zustand.js'
 import UploadImage from '@/components/UploadImage/index.jsx'
-import { createSelectList } from '@/utils/functions.js' // Update this to your actual API call path
+import {createSelectList} from '@/utils/functions.js' // Update this to your actual API call path
 
 const { Option } = Select
 
@@ -25,7 +20,7 @@ export default function ChannelForm({ selectedChannel, onUpdateList, setSelected
         offset: 0,
         limit: 100,
       }), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
+
     retry: false,
     gcTime: 20 * 60 * 1000,
     staleTime: 'Infinity',
@@ -38,7 +33,7 @@ export default function ChannelForm({ selectedChannel, onUpdateList, setSelected
         offset: 0,
         limit: 100,
       }), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
+
     retry: false,
     gcTime: 20 * 60 * 1000,
     staleTime: 'Infinity',

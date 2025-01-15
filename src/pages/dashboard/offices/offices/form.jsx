@@ -6,7 +6,12 @@ import UploadImage from '@/components/UploadImage/index.jsx'
 import { createOffice, deleteOffice, updateOffice } from '@/utils/api/functions.js'
 import { userStore } from '@/utils/zustand.js'
 
-export default function OfficeForm({ selectedOffice, onUpdateList, cityList, setSelectedOffice }) {
+export default function OfficeForm({
+  selectedOffice,
+  onUpdateList,
+  cityList = [],
+  setSelectedOffice,
+}) {
   const [officeForm] = Form.useForm()
   const lang = userStore((state) => state.language)
 
@@ -14,7 +19,6 @@ export default function OfficeForm({ selectedOffice, onUpdateList, cityList, set
     // Optional callbacks
     mutationFn: updateOffice,
     onSuccess: (data) => {
-      setSelectedOffice(undefined)
       onUpdateList(data.data, 'update')
     },
   })
@@ -22,9 +26,8 @@ export default function OfficeForm({ selectedOffice, onUpdateList, cityList, set
   const onDeleteOffice = useMutation({
     // Optional callbacks
     mutationFn: deleteOffice,
-    onSuccess: (data) => {
-      setSelectedOffice(undefined)
-      onUpdateList(data?.data, 'delete')
+    onSuccess: () => {
+      onUpdateList(selectedOffice, 'delete')
     },
   })
 
@@ -32,7 +35,6 @@ export default function OfficeForm({ selectedOffice, onUpdateList, cityList, set
     // Optional callbacks
     mutationFn: createOffice,
     onSuccess: (data) => {
-      setSelectedOffice(undefined)
       onUpdateList(data?.data, 'create')
     },
   })
@@ -40,6 +42,7 @@ export default function OfficeForm({ selectedOffice, onUpdateList, cityList, set
   useEffect(() => {
     if (selectedOffice) {
       let newFormData = cloneDeep(selectedOffice)
+      newFormData.cityId = selectedOffice?.city?.id
       officeForm.setFieldsValue(newFormData)
     }
   }, [selectedOffice])
@@ -49,7 +52,6 @@ export default function OfficeForm({ selectedOffice, onUpdateList, cityList, set
       try {
         values.coords.lat = Number(values.coords.lat)
         values.coords.long = Number(values.coords.long)
-        values.cityId = Number(values.cityId)
         if (selectedOffice?.id) {
           onUpdateOffice.mutate({ id: selectedOffice.id, params: values })
         } else {
@@ -114,7 +116,7 @@ export default function OfficeForm({ selectedOffice, onUpdateList, cityList, set
                 </div>
                 <div className={'flex-1'}>
                   <strong className={'text-gray-600'}>Город: </strong>
-                  {cityList.find((item) => selectedOffice?.cityId === item?.id)?.name?.[lang]}
+                  {cityList?.find((item) => selectedOffice?.cityId === item?.id)?.name?.[lang]}
                 </div>
               </div>
             </div>
@@ -203,7 +205,7 @@ export default function OfficeForm({ selectedOffice, onUpdateList, cityList, set
               <Select allowClear={true} placeholder="Выберите город" className={'w-80 mr-8'}>
                 {cityList?.map((item) => (
                   <Option key={item.id} value={item.id}>
-                    {item.name?.[lang]}
+                    {item?.name?.[lang]}
                   </Option>
                 ))}
               </Select>

@@ -24,7 +24,7 @@ export default function WifiForm({ selectedWifi, onUpdateList, setSelectedWifi }
         offset: 0,
         limit: 100,
       }), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
+
     retry: false,
     gcTime: 20 * 60 * 1000,
     staleTime: 'Infinity',
@@ -37,7 +37,7 @@ export default function WifiForm({ selectedWifi, onUpdateList, setSelectedWifi }
         offset: 0,
         limit: 100,
       }), // Fetch the correct page
-    keepPreviousData: true, // Keep previous data while fetching the new one (useful for pagination)
+
     retry: false,
     gcTime: 20 * 60 * 1000,
     staleTime: 'Infinity',
