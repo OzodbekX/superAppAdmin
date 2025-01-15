@@ -1,0 +1,16 @@
+services:
+  admin:
+    build: "./"
+    container_name: turon_super_app_admin
+    ports:
+      - 3008:80
+    restart: on-failure
+    env_file: .env #/var/www/.crm.env.test
+    labels:
+      logging: "promtail"
+      logging_jobname: "containerlogs"
+    ulimits:
+            nproc: 65535
+            nofile:
+                soft: 65535
+                hard: 65535
