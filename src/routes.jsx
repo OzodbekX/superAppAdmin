@@ -196,20 +196,20 @@ export const routes = [
       //     },
       //   ],
       // },
-      // {
-      //   icon: <UserGroupIcon {...icon} />,
-      //   name: 'Пользователи',
-      //   id: 'Пользователи',
-      //   children: [
-      //     {
-      //       icon: <UsersIcon {...icon} />,
-      //       name: 'Сотрудники',
-      //       id: 'Сотрудники',
-      //       path: '/users-management',
-      //       element: <StaffManagement />,
-      //     },
-      //   ],
-      // },
+      {
+        icon: <UserGroupIcon {...icon} />,
+        name: 'Пользователи',
+        id: 'Пользователи',
+        children: [
+          {
+            icon: <UsersIcon {...icon} />,
+            name: 'Сотрудники',
+            id: 'Сотрудники',
+            path: '/users-management',
+            element: <StaffManagement />,
+          },
+        ],
+      },
     ],
   },
   {
